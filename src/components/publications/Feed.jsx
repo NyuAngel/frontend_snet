@@ -1,7 +1,11 @@
 import avatar from '../../assets/img/default_user.png';
+import useAuth from "../../hooks/useAuth";
 
 export const Feed = () => {
 
+  const { share } = useAuth();
+  console.log(share);
+  
   return (
     <>
       <header className="content__header">

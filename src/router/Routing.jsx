@@ -3,9 +3,10 @@ import { PublicLayout } from "../components/layouts/public/PublicLayout";
 import { Login } from "../components/user/Login";
 import { Register } from "../components/user/Register";
 import { PrivateLayout } from "../components/layouts/private/PrivateLayout";
-import { Feed } from "../components/publications/Feed"
+import { Feed} from "../components/publications/Feed";
 import { Error404 } from "../components/layouts/Error404";
 import { AuthProvider } from "../context/AuthProvider";
+
 
 export const Routing = () => {
   return (
