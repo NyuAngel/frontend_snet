@@ -1,13 +1,12 @@
 import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import { Global } from "../../helpers/Global";
-import avatar from '../../assets/img/default.png';
+import avatar from "../../assets/img/default.png";
 import { SerializeForm } from "../../helpers/SerializeForm";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
 export const Config = () => {
-
   // Se recibe la información desde el Contexto a través del hook useAuth
   const { auth, setAuth } = useAuth();
 
@@ -19,7 +18,6 @@ export const Config = () => {
 
   // Función para actualizar el usuario
   const updateUser = async (e) => {
-
     // Prevenir que se actualice la pantalla
     e.preventDefault();
 
@@ -39,7 +37,7 @@ export const Config = () => {
         body: JSON.stringify(newDataUser),
         headers: {
           "Content-Type": "application/json",
-          "Authorization": token
+          Authorization: token
         }
       });
 
@@ -47,7 +45,6 @@ export const Config = () => {
       const userData = await userUpdateResponse.json();
 
       if (userData?.status === "success" && userData.user) {
-
         // Eliminar del objeto recibido la contraseña
         delete userData.user.password;
 
@@ -62,28 +59,29 @@ export const Config = () => {
         }
 
         // Mostrar modal de éxito con el mensaje del backend o un mensaje por defecto
-        const successMessage = userData?.message || '¡Usuario actualizado correctamente!';
+        const successMessage =
+          userData?.message || "¡Usuario actualizado correctamente!";
 
         Swal.fire({
           title: successMessage,
-          icon: 'success',
-          confirmButtonText: 'Continuar',
+          icon: "success",
+          confirmButtonText: "Continuar"
         }).then(() => {
           // Redirigir después de cerrar el modal
-          navigate('/login');
+          navigate("/login");
         });
-
       } else {
         setSaved("error");
 
         // Mostrar modal de error con el mensaje del backend o un mensaje por defecto
-        const errorMessage = userData?.message || '¡El usuario no se ha actualizado!';
+        const errorMessage =
+          userData?.message || "¡El usuario no se ha actualizado!";
 
         // Mostrar modal de error
         Swal.fire({
           title: errorMessage,
-          icon: 'error',
-          confirmButtonText: 'Intentar nuevamente',
+          icon: "error",
+          confirmButtonText: "Intentar nuevamente"
         });
       }
     } catch (error) {
@@ -91,30 +89,31 @@ export const Config = () => {
       setSaved("error");
 
       // Mostrar modal de error con el mensaje del backend o un mensaje por defecto
-      const errorMessage = error.response?.data?.message || '¡Error al actualizar el usuario!';
+      const errorMessage =
+        error.response?.data?.message || "¡Error al actualizar el usuario!";
 
       // Mostrar modal de error
       Swal.fire({
         title: errorMessage,
-        icon: 'error',
-        confirmButtonText: 'Intentar nuevamente',
+        icon: "error",
+        confirmButtonText: "Intentar nuevamente"
       });
     }
-  }
+  };
 
   // Función para actualizar el avatar del usuario
   const uploadAvatar = async (file, token) => {
     try {
       // Obtener el archivo a subir
       const formData = new FormData();
-      formData.append('file0', file);
+      formData.append("file0", file);
 
       // Petición para enviar el archivo a la api del Backend y guardarla
       const uploadResponse = await fetch(`${Global.url}user/upload-avatar`, {
         method: "POST",
         body: formData,
         headers: {
-          "Authorization": token
+          Authorization: token
         }
       });
 
@@ -122,7 +121,6 @@ export const Config = () => {
       const uploadData = await uploadResponse.json();
 
       if (uploadData.status === "success" && uploadData.user) {
-
         // Eliminar del objeto recibido la contraseña
         delete uploadData.user.password;
 
@@ -137,15 +135,16 @@ export const Config = () => {
       setSaved("error");
 
       // Mostrar modal de error con el mensaje del backend o un mensaje por defecto
-      const errorMessage = error.response?.data?.message || '¡Error al subir el avatar!';
+      const errorMessage =
+        error.response?.data?.message || "¡Error al subir el avatar!";
 
       Swal.fire({
         title: errorMessage,
-        icon: 'error',
-        confirmButtonText: 'Intentar nuevamente',
+        icon: "error",
+        confirmButtonText: "Intentar nuevamente"
       });
     }
-  }
+  };
 
   return (
     <>
@@ -153,18 +152,24 @@ export const Config = () => {
         <h1 className="content__title">Editar Usuario</h1>
       </header>
       <div className="content__posts">
-
         <div className="form-style">
           {/* Respuestas de usuario registrado*/}
           {saved === "saved" ? (
-            <strong className="alert alert-success">¡Usuario actualizado correctamente!</strong>
-          ) : ''}
+            <strong className="alert alert-success">
+              ¡Usuario actualizado correctamente!
+            </strong>
+          ) : (
+            ""
+          )}
           {saved === "error" ? (
-            <strong className="alert alert-danger">¡El usuario no se ha actualizado!</strong>
-          ) : ''}
+            <strong className="alert alert-danger">
+              ¡El usuario no se ha actualizado!
+            </strong>
+          ) : (
+            ""
+          )}
 
           <form className="config-form" onSubmit={updateUser}>
-
             <div className="form-group">
               <label htmlFor="name">Nombres</label>
               <input
@@ -238,20 +243,32 @@ export const Config = () => {
               <div className="avatar">
                 <div className="general-info__container-avatar">
                   {auth.image !== "default.png" ? (
-                    <img src={auth.image} className="container-avatar__img" alt="Foto de perfil" />
+                    <img
+                      src={auth.image}
+                      className="container-avatar__img"
+                      alt="Foto de perfil"
+                    />
                   ) : (
-                    <img src={avatar} className="container-avatar__img" alt="Foto de perfil" />
+                    <img
+                      src={avatar}
+                      className="container-avatar__img"
+                      alt="Foto de perfil"
+                    />
                   )}
                 </div>
               </div>
-              <br/>
-              <input type="file" name="file0" id="file-avatar" autoComplete="file"/>
+              <br />
+              <input
+                type="file"
+                name="file0"
+                id="file-avatar"
+                autoComplete="file"
+              />
             </div>
             <input type="submit" value="Editar" className="btn btn-success" />
-
           </form>
         </div>
       </div>
     </>
-  )
-}
+  );
+};

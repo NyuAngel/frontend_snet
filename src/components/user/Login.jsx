@@ -25,8 +25,8 @@ export const Login = () => {
       method: "POST",
       body: JSON.stringify(userToLogin),
       headers: {
-        "Content-Type": "application/json",
-      },
+        "Content-Type": "application/json"
+      }
     });
 
     // Obtener la información retornada por la request

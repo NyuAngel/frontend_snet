@@ -1,10 +1,9 @@
 import { Global } from "../../helpers/Global";
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
-import { UserList } from './UserList';
+import { UserList } from "./UserList";
 
 export const People = () => {
-
   // Variable para almacenar el token para las peticiones a realizar en este componente
   const token = localStorage.getItem("token");
 
@@ -31,7 +30,6 @@ export const People = () => {
   // Método para hacer la petición al Backend y obtener los usuarios que sigues
   const getUsers = async (nextPaginate = 1) => {
     try {
-
       // Petición al Backend para obtener los usuarios que sigues desde la BD del API Backend - page actualiza la pagina a mostrar
 
       // Endpoint en formato Template String
@@ -39,7 +37,7 @@ export const People = () => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": token
+          Authorization: token
         }
       });
 
@@ -48,9 +46,10 @@ export const People = () => {
 
       // Usar la variable de estado para asignar el array de usuarios que sigues recibido. Si la petición es exitosa, actualiza los usuarios
       if (data.users && data.status === "success") {
-
         // Filtrar usuarios para excluir al usuario autenticado
-        const filteredUsers = data.users.filter(user => user._id !== auth._id);
+        const filteredUsers = data.users.filter(
+          (user) => user._id !== auth._id
+        );
 
         let newUsers = filteredUsers;
 
@@ -61,13 +60,16 @@ export const People = () => {
         setUsers(newUsers);
 
         // Obtener la lista de usuarios que sigues y actualizar el estado
-        const followResponse = await fetch(`${Global.url}follow/following/${auth._id}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": token
+        const followResponse = await fetch(
+          `${Global.url}follow/following/${auth._id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: token
+            }
           }
-        });
+        );
 
         const followData = await followResponse.json();
 
@@ -104,4 +106,4 @@ export const People = () => {
       />
     </>
   );
-}
+};
