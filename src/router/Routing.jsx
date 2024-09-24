@@ -41,7 +41,7 @@ export const Routing = () => {
           </Route>
 
           {/* Configuramos la ruta para el error 404 */}
-          {/*<Route path="*" element={<Error404 />} />*/}
+          <Route path="*" element={<Error404 />} />
 
         </Routes>
       </AuthProvider>
